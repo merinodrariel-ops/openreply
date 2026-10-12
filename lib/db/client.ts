@@ -19,11 +19,14 @@ function createPrismaClient() {
   // exhausted pool. The cap is per-environment: small on Vercel, a bit higher
   // on the worker, which is a single long-lived process.
   return new PrismaClient({
-    adapter: new PrismaPg({
-      connectionString: databaseUrl,
-      max: Number(process.env.DB_POOL_MAX ?? 3),
-      idleTimeoutMillis: 10_000,
-    }),
+    adapter: new PrismaPg(
+      {
+        connectionString: databaseUrl,
+        max: Number(process.env.DB_POOL_MAX ?? 3),
+        idleTimeoutMillis: 10_000,
+      },
+      { schema: "openreply" }
+    ),
   });
 }
 

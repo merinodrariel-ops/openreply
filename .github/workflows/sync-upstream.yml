@@ -1,0 +1,21 @@
+name: Sync Upstream (OpenReply)
+
+on:
+  schedule:
+    # Corre todos los domingos a las 04:00 UTC
+    - cron: '0 4 * * 0'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync and merge upstream
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Auto Sync
+        run: |
+          gh repo sync merinodrariel-ops/openreply -b main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
